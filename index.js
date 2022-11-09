@@ -44,6 +44,11 @@ async function run() {
       res.send(package);
     });
 
+    app.post("/packages", async (req, res) => {
+      const data = req.body;
+      const result = await servicesCollection.insertOne(data);
+      res.send(result);
+    });
     app.get("/reviews", async (req, res) => {
       const query = {};
       const options = {
