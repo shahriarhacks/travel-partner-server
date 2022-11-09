@@ -21,11 +21,13 @@ async function run() {
       .db("TravelPartner")
       .collection("packages");
 
+    const reviewsCollection = client.db("TravelPartner").collection("reviews");
+
     app.get("/home/packages", async (req, res) => {
       const query = {};
       const cursor = servicesCollection.find(query);
-      res.send(cursor);
       const services = await cursor.limit(3).toArray();
+      res.send(services);
     });
 
     app.get("/packages", async (req, res) => {
@@ -39,8 +41,13 @@ async function run() {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
       const package = await servicesCollection.findOne(query);
-      console.log(package);
       res.send(package);
+    });
+
+    app.post("/reviews", async (req, res) => {
+      const review = req.body;
+      const result = await reviewsCollection.insertOne(review);
+      res.send(result);
     });
   } finally {
   }
