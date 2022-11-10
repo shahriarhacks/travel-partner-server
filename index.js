@@ -129,7 +129,7 @@ async function run() {
   }
 }
 run().catch((err) => console.error(err));
-
+//Server Root Page
 app.get("/", (req, res) => {
   res.send("Server is ready for fight");
 });
