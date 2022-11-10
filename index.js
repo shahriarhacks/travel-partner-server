@@ -22,7 +22,17 @@ async function run() {
       .collection("packages");
 
     const reviewsCollection = client.db("TravelPartner").collection("reviews");
+    const blogCollection = client.db("TravelPartner").collection("blog");
 
+    //Blog Section
+    app.get("/blog", async (req, res) => {
+      const query = {};
+      const cursor = blogCollection.find(query);
+      const blog = await cursor.toArray();
+      res.send(blog);
+    });
+
+    //Home Page Limited Data
     app.get("/home/packages", async (req, res) => {
       const query = {};
       const cursor = servicesCollection.find(query);
@@ -30,6 +40,7 @@ async function run() {
       res.send(services);
     });
 
+    //Packages or Services Section
     app.get("/packages", async (req, res) => {
       const query = {};
       const cursor = servicesCollection.find(query);
@@ -49,6 +60,8 @@ async function run() {
       const result = await servicesCollection.insertOne(data);
       res.send(result);
     });
+
+    //Reviews Section
     app.get("/reviews", async (req, res) => {
       const query = {};
       const options = {
